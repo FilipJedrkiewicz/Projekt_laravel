@@ -21,10 +21,23 @@
             </div>
         </div>
     </nav>
-    <main class="py-2 justify-items-center">
-        <h1>{{ $task->title }}</h1>
-        <h1>{!! nl2br(e($task->description)) !!}</h1>
-
+    <main class="py-2 ">
+        <div class="justify-items-center max-w-7xl py-2 px-10 mx-auto border-2 border-black rounded-2xl bg-white">
+            <div class="pb-5">
+                <h1 class="font-bold text-2xl">Tytuł: {{ $task->title }}</h1>
+            </div>
+            <div class="px-8 py-2 justify-items-center">
+                <h1 class="font-bold text-2xl">Instrukcja:</h1>
+                <textarea name="description"  cols="100" rows="15" readonly='true' class="rounded-xl">{{ $task->description }}</textarea>
+            </div>
+            <div class="py-5">
+                <a href="{{ route('tasks.index') }}" class="bg-indigo-500 px-3 py-3 rounded-2xl text-white text-xl font-bold hover:bg-indigo-600 transition">POWRÓT</a>
+                <a href="{{ route('tasks.instruction.edit', $task) }}" class="bg-indigo-500 px-3 py-3 rounded-2xl text-white text-xl font-bold hover:bg-indigo-600 transition">EDYTUJ</a>
+            </div>
+             
+        </div>
+        
+        
     </main>
 </body>
 </html>

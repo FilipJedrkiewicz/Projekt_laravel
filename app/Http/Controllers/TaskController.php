@@ -43,12 +43,6 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $description = null;
-
-        if ($request->hasFile('instruction')) {
-            $description = file_get_contents($request->file('instruction')->getRealPath());
-        }
-
         $request->validate([
             'title' => 'required|string|max:255',
             'due_date' => 'required|date',
@@ -57,17 +51,17 @@ class TaskController extends Controller
             'priority' => 'required|string|max:255',
         ]);
 
-        Task::create([
+        $task = Task::create([
             'title' => $request->title,
             'is_completed' => false,
             'due_date' => $request->due_date,
             'author' => $request->author,
             'category' => $request->category,
             'priority' => $request->priority,
-            'description' => $description,
+            'description' => '',
         ]);
 
-        return redirect()->back();
+        return redirect()->route('tasks.instruction.edit', $task);
     }
 
 
@@ -120,5 +114,23 @@ class TaskController extends Controller
     public function instruction(Task $task)
     {
         return view('tasks.instruction', compact('task'));
+    }
+
+    public function editInstruction(Task $task)
+    {
+        return view('tasks.edit_instruction', compact('task'));
+    }
+
+    public function updateInstruction(Request $request, Task $task)
+    {
+        $request->validate([
+            'description' => 'nullable|string',
+        ]);
+
+        $task->update([
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('tasks.index')->with('success', 'Instrukcja zapisana!');
     }
 }

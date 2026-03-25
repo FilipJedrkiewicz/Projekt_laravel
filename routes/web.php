@@ -15,6 +15,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     //Instrukcja
     Route::get('/tasks/{task}/instruction', [TaskController::class, 'instruction'])->name('tasks.instruction');
+    Route::get('/tasks/{task}/instruction/edit', [TaskController::class, 'editInstruction'])->name('tasks.instruction.edit');
+    Route::patch('/tasks/{task}/instruction', [TaskController::class, 'updateInstruction'])->name('tasks.instruction.update');
     // Reset
     Route::delete('/tasks/reset', [TaskController::class, 'reset'])->name('tasks.reset');
     // Widok listy zadań
